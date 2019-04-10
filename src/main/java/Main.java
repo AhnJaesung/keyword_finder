@@ -6,7 +6,8 @@ public class Main {
 
     public static void main(String[] args) {
         final DataList dataList = new DataList();
-
+        //수정테스트
+        System.out.println("hi");
         // 데이터추출
         Runnable putIn = new PutIn(dataList);
         // 분석
