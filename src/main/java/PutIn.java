@@ -15,19 +15,19 @@ public class PutIn implements Runnable{
         String moveDirName =  "C:\\Users\\ajs\\Desktop\\test\\move";
         String fileExt = "txt";
 
-        for(int q = 0; q < 10; q++){
+        while(true){
 
             // 특정 폴더내 특정 확장파일 목록 불러오기
             List fileList = getFileNames(targetDirName, fileExt);
             //System.out.println("=============================   filesize : " + fileList.size() + "   ============================");
             if(fileList.size() > 0){
-
                 BufferedReader bReader = null;
-                try {
 
-                    for(int i = 0; i < fileList.size(); i++) {
+                for(int i = 0; i < fileList.size(); i++) {
+                    File file = new File(targetDirName+"\\"+fileList.get(i));
+                    try {
                         //System.out.println("filepath : "+targetDirName+"\\"+fileList.get(i));
-                        File file = new File(targetDirName+"\\"+fileList.get(i));
+                        System.out.println("=============================   fileName : " + fileList.get(i) + "   ============================");
                         if(file.exists()){
                             bReader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"euc-kr"));
                             String txt = "";
@@ -37,32 +37,45 @@ public class PutIn implements Runnable{
                             }
                             dataList.setData(data);
 
-                            /*if(file.renameTo(new File(moveDirName+"\\"+fileList.get(i)))){
-                                //System.out.println(moveDirName+"\\"+fileList.get(i));
-                            }else{
-                                //System.out.println("실패");
-                            }*/
-
-                        }else{
+                        }else {
                             //파일없음
                         }
+                    }catch (FileNotFoundException e){
+                        e.printStackTrace();
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            if (bReader != null) {
+                                bReader.close();
+                                System.out.println("================================   Close   ================================");
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                     }
 
-                }catch (FileNotFoundException e){
-                    e.printStackTrace();
-                }catch (IOException e){
-                    e.printStackTrace();
-                } finally {
                     try {
-                        if (bReader != null) {
-                            bReader.close();
-                            //System.out.println("================================   Close   ================================");
+                        FileInputStream fin = new FileInputStream(targetDirName+"\\"+fileList.get(i));
+                        FileOutputStream fout = new FileOutputStream(moveDirName+"\\"+fileList.get(i));
+                        int tmp = 0;
+                        while((tmp = fin.read()) != -1){
+                            fout.write(tmp);
                         }
+                        fin.close();
+                        fout.close();
+                        System.out.println(file.delete());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
 
+                }
+            }else{
+                System.out.println("읽을 파일이 없습니다.");
+                break;
             }
 
         }
