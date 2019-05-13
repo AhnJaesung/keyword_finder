@@ -11,7 +11,7 @@ public class DataList {
         return DataList;
     }
 
-    public String getDataPeek(){
+    public synchronized String getDataPeek(){
         return DataList.peek();
     }
 
@@ -19,7 +19,7 @@ public class DataList {
         String data = null;
         if(this.getDataPeek() == null){
             try {
-                System.out.println("잠깐멈춤");
+                System.out.println("wait...");
                 wait();
             }catch (Exception e){
                 e.printStackTrace();
@@ -33,10 +33,18 @@ public class DataList {
     public synchronized void setData(String data){
         if(data != null){
             DataList.offer(data);
+            if(this.getDataPeek() == null){
+                try {
+                    System.out.println("notifyAll...");
+                    notifyAll();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
-    public synchronized  int getSize(){
+    public synchronized int getSize(){
         return DataList.size();
     }
 }

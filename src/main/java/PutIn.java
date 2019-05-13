@@ -10,7 +10,7 @@ public class PutIn implements Runnable{
 
     @Override
     public void run() {
-        // 크롤링 파일 읽기
+        // 파일 경로 및 확장자
         String targetDirName = "C:\\Users\\ajs\\Desktop\\test";
         String moveDirName =  "C:\\Users\\ajs\\Desktop\\test\\move";
         String fileExt = "txt";
@@ -24,9 +24,10 @@ public class PutIn implements Runnable{
                 BufferedReader bReader = null;
 
                 for(int i = 0; i < fileList.size(); i++) {
+
+                    // 파일 읽기
                     File file = new File(targetDirName+"\\"+fileList.get(i));
                     try {
-                        //System.out.println("filepath : "+targetDirName+"\\"+fileList.get(i));
                         System.out.println("=============================   fileName : " + fileList.get(i) + "   ============================");
                         if(file.exists()){
                             bReader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"euc-kr"));
@@ -56,6 +57,7 @@ public class PutIn implements Runnable{
 
                     }
 
+                    // 파일 이동
                     try {
                         FileInputStream fin = new FileInputStream(targetDirName+"\\"+fileList.get(i));
                         FileOutputStream fout = new FileOutputStream(moveDirName+"\\"+fileList.get(i));

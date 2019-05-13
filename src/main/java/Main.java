@@ -3,7 +3,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class Main {
-    static int cnt = 0;         // 스레드 수
+    // 스레드 수 체크
+    static int cnt = 0;
+
     public static void main(String[] args) {
         // 초기화
         DataList dataList = new DataList();
@@ -17,14 +19,14 @@ public class Main {
 
         // 인터벌 생성
         try {
-            Thread.sleep(500);
+            Thread.sleep(300);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         // 분석 및 저장
         while(dataList.getSize() != 0){
-            if(cnt < 5){
+            if(cnt < 5) {
                 executorService.execute(analysis);
             }
         }
@@ -35,6 +37,7 @@ public class Main {
 
     }
 
+    // 스레드 수 체크 메소드
     public void upCnt(){
         cnt++;
     }
